@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Lextec - turismo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="style/lextec.css" rel="stylesheet" type="text/css">
+<script language="javascript">
+var maxTermos=5;
+
+var historicos= new Array(maxTermos);
+var termos=0;
+for (i=0; i<maxTermos; i++){
+	historicos[i]='';
+}
+
+function dynamicContent(elementid,content){
+	if (navigator.appName == "Netscape"){
+		rng = document.createRange();
+		el = document.getElementById(elementid);
+		rng.setStartBefore(el);
+		htmlFrag = rng.createContextualFragment(content);
+		while (el.hasChildNodes())
+			el.removeChild(el.lastChild);
+		el.appendChild(htmlFrag);
+	}else{
+		document.getElementById(elementid).innerHTML=content;
+	}
+}
+
+function montarHistorico(termo, dominio, id){
+	var item="<img src='img/bullet.gif' /> <a href='por/domain_"+dominio+"/index/"+id+".html' target='principalFrame'>"+termo+"</a> &nbsp;&nbsp;&nbsp;&nbsp;";
+	if (contemItem){
+		insertExistingAndShiftArray(item);
+		
+	}else{
+		insertAndShiftArray(item);
+	}
+
+	var historicoString="<span class='historicoTitle'>histórico</span><br />";
+	for (i=0; i<maxTermos; i++){
+		historicoString +=historicos[i];
+	}
+	dynamicContent("historico",historicoString);
+}
+
+function insertAndShiftArray(item){
+	for (i=maxTermos-2; i>=0; i--){
+	 historicos[i+1]=historicos[i]	;
+	}
+	historicos[0]=item;
+}
+
+function insertExistingAndShiftArray(item){
+	var tmpItem=item;
+	var itemFound=false;
+	for (i=0; i<maxTermos && !itemFound; i++){
+		if (historicos[i] == item){
+			itemFound=true;
+		historicos[i]=tmpItem
+		}else{
+			var tmp=historicos[i];
+			historicos[i]=tmpItem;
+			tmpItem=tmp;
+		}
+	}
+	historicos[0]=item;
+}
+
+function contemItem(item){
+	for (i=0; i<maxTermos; i++){
+		if (historicos[i]==item)
+		{
+			return true;
+		}
+	}	
+}
+
+</script>
+</head>
+<body style="margin-top: 0px; margin-bottom: 0px; background-color: #eee;">
+	<div style='background-image: url("img/mainseparator.gif");  background-position: top;  background-repeat: repeat-x; background-color: #fff;'>
+		<div id="historico">
+
+		</div>
+	</div>
+	<div class="historicoFooter">Copyright &copy; 2005-2006 <a  href="http://www.instituto-camoes.pt/" target="_blank">IC - Instituto Camões</a>.</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
